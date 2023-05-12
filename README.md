@@ -5,7 +5,8 @@
 ### Start with DEV mode
 
 ```bash
-cd nest-api
+cd node-api
+pnpm i
 yarn dev # pnpm dev
 ```
 
