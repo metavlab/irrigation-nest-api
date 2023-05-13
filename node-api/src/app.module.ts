@@ -5,6 +5,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config/config.schema';
 import { CommonModule } from './common/common.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SharedModule } from './shared/shared.module';
+import { AdminModule } from './modules/admin/admin.module';
+import { FrontModule } from './modules/front/front.module';
 
 @Module({
   imports: [
@@ -45,6 +48,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
     }),
     CommonModule,
+    SharedModule,
+    AdminModule,
+    FrontModule,
   ],
   controllers: [AppController],
   providers: [AppService],

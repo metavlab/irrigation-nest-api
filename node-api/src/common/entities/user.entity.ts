@@ -1,10 +1,10 @@
 import { Exclude } from 'class-transformer';
 import { PlatformEnum } from 'src/enums/platform.enum';
-import BaseModel from 'src/shared/model/base.model';
+import SharedEntity from 'src/shared/entities/shared.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity('user')
-export class UserEntity extends BaseModel {
+export class UserEntity extends SharedEntity {
   @Index()
   @Column({
     type: 'varchar',
@@ -89,7 +89,7 @@ export class UserEntity extends BaseModel {
     nullable: true,
     default: 0,
     name: 'platform',
-    comment: 'platform,0-guest,1-administrator,2-mangement,3-farmer',
+    comment: 'platform,0-guest,1-administrator,2-merchant,3-farmer',
   })
   platform: PlatformEnum;
 

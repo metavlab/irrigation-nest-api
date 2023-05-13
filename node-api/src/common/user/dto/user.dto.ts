@@ -24,7 +24,7 @@ export class UserDto {
   @IsOptional()
   @IsEnum(
     { Guest: 0, Management: 2, Farmer: 3 },
-    { message: 'Platform require 0-Guest,2-Mangement or 3-Farmer' },
+    { message: 'Platform require 0-Guest,2-Merchant or 3-Farmer' },
   )
   @Type(() => Number)
   @ValidateIf((o) => o.platform != '' && o.platform != 1)

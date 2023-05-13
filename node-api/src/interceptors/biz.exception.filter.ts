@@ -20,11 +20,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const exRet: Record<string, any> =
       typeof exception?.getResponse() === 'string'
-        ? { errmsg: exception.getResponse() }
+        ? { message: exception.getResponse() }
         : { ...(exception.getResponse() as Record<string, any>) };
 
     const errResponse = {
-      status,
+      code: status,
       ...exRet,
       timestamp: formatDate(new Date()),
     };

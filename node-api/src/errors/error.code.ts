@@ -4,6 +4,8 @@ export const ErrorMessage = {
   400101: '用户名重复',
   400102: '手机号码重复',
   400103: '邮箱地址重复',
+  400104: '用户不存在',
+  400105: '登录失败',
 };
 
 export enum ErrorCodeEnum {
@@ -12,6 +14,8 @@ export enum ErrorCodeEnum {
   DUPLICATE_USERNAME = 400101,
   DUPLICATE_MOBILE = 400102,
   DUPLICATE_EMAIL = 400103,
+  USER_NOTFOUND = 400104,
+  LOGIN_FAILED = 400105,
 }
 
 /**
@@ -24,6 +28,11 @@ export function getBizError(
 ) {
   return {
     errcode: errorCode,
-    errmsg: ErrorMessage[errorCode.valueOf()] || ErrorMessage[999999],
+    errtype: getErrorTypeKey(errorCode),
+    message: ErrorMessage[errorCode.valueOf()] || ErrorMessage[999999],
   };
+}
+
+export function getErrorTypeKey(value: ErrorCodeEnum) {
+  return ErrorCodeEnum[value];
 }

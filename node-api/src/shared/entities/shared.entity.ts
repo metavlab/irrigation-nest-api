@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-abstract class BaseModel extends BaseEntity {
+abstract class SharedEntity extends BaseEntity {
   @PrimaryGeneratedColumn({
     type: 'bigint',
     name: 'id',
@@ -43,4 +43,4 @@ abstract class BaseModel extends BaseEntity {
   updatedTime: Date;
 }
 
-export default BaseModel;
+export default SharedEntity;

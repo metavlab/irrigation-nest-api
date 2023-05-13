@@ -9,6 +9,6 @@ export enum PlatformEnum {
 export const PlatformMessage = {
   0: 'Guest',
   1: 'Adminstrator',
-  2: 'Mangement',
+  2: 'Merchant',
   3: 'Farmer',
 };
