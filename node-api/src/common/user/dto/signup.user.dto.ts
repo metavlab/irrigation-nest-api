@@ -21,7 +21,7 @@ export class SignupUserDto extends UserDto {
   })
   @IsNotEmpty({ message: 'password required' })
   @Length(4, 50, {
-    message: 'Password requirement more than 3 and less than 50.',
+    message: 'Password is too week!',
   })
   @Matches(RegExp(PASSWORD_CHECK_REGEX))
   readonly password: string;

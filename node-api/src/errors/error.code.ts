@@ -28,8 +28,8 @@ export function getBizError(
 ) {
   return {
     errcode: errorCode,
-    errtype: getErrorTypeKey(errorCode),
     message: ErrorMessage[errorCode.valueOf()] || ErrorMessage[999999],
+    error: getErrorTypeKey(errorCode),
   };
 }
 
