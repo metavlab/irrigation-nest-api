@@ -20,10 +20,10 @@ export class SignupUserDto extends UserDto {
     description: 'password more 4 and less than 50 characters',
   })
   @IsNotEmpty({ message: 'password required' })
-  @Length(4, 50, {
-    message: 'Password is too week!',
+  @Length(4, 100, {
+    message: 'Password is too short!',
   })
-  @Matches(RegExp(PASSWORD_CHECK_REGEX))
+  @Matches(RegExp(PASSWORD_CHECK_REGEX), { message: 'Password is too week' })
   readonly password: string;
 
   @ApiProperty({

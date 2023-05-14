@@ -12,16 +12,21 @@ import { ErrorCodeEnum, getBizError } from 'src/errors/error.code';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserReqDto } from './dto/user.req.dto';
 import { UserService } from './user.service';
+import { ToolsService } from 'src/shared/services/tools/tools.service';
 
 @ApiTags('API Document - User')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+
+    private readonly tool: ToolsService,
+  ) {}
 
   @ApiResponse({ type: UserVo, description: 'User Object' })
   @Get('/:id')
-  getUserById(@Param('id') id: number): Promise<UserVo | null> {
-    return this.userService.userById(id);
+  async getUserById(@Param('id') id: number): Promise<UserVo | null> {
+    return await this.userService.userById(id);
   }
 
   @ApiResponse({

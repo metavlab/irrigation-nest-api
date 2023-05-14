@@ -34,7 +34,9 @@ export const getErrorObject = <T>(exception: T): Record<string, any> => {
     const message =
       (errResponse as HttpExceptionResponse).message || exception.message;
     const errcode = (errResponse as HttpExceptionResponse).errcode;
-    const error = (errResponse as HttpExceptionResponse).error;
+    const error =
+      (errResponse as HttpExceptionResponse).error ||
+      (typeof message === 'string' ? message : undefined);
     return { errcode, message, error };
   } else if (exception instanceof BadRequestException) {
     const errResponse = (exception as BadRequestException).getResponse();

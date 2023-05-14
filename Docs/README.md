@@ -31,3 +31,17 @@ export enum ErrorCodeEnum {
 ```ts
 throw new HttpException(getBizError(ErrorCodeEnum.DUPLICATE_MOBILE),HttpStatus.BAD_REQUEST)
 ```
+
+## Auth
+
+```json
+{
+  "admin!123":"$2b$11$EbG0agr9A0eOov.3xK8iZOY8QiGvV3RSHa1g9MKb/6HGebIs44i5S"
+}
+```
+
+## Jest 
+
+```bash
+pnpm jest -- src/shared/services/tools/tools.service.spec.ts
+```
