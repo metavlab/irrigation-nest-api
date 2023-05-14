@@ -33,6 +33,7 @@ export class UserController {
   })
   @HttpCode(HttpStatus.OK)
   @Get()
+  @UseGuards(JwtAuthGuard)
   getUsers(@Query() queryDto: UserReqDto): Promise<UserListVo> {
     console.log(queryDto);
     throw new HttpException(

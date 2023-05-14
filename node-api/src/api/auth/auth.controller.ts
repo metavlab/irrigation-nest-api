@@ -2,7 +2,7 @@ import {
   Controller,
   Post,
   Body,
-  Response,
+  // Response,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -14,9 +14,10 @@ import { UserSiginDto } from './dto/user.signin.dto';
 import { AuthService } from './auth.service';
 import { ApiIgnoreTransform } from 'src/decorators';
 // import { HEADER_JWT_TOKEN_KEY } from 'src/constants/http.constants';
-import { Response as Res, Request } from 'express';
+import { Request } from 'express';
 import { AuthCredentialsPayload } from '../types/auth.credentials.type';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { UserEntity } from '../entities/user.entity';
 
 @ApiTags('API Document - Auth')
 @Controller()
@@ -36,19 +37,24 @@ export class AuthController {
   @ApiResponse({ type: String, description: 'User access token' })
   @ApiIgnoreTransform()
   @Post('/signin')
-  public async signin(
-    @Body() signinDto: UserSiginDto,
-    @Response() _res: Res,
-  ): Promise<string> {
+  public async signin(@Body() signinDto: UserSiginDto): Promise<string> {
     const token: string = await this.authService.userLogin(signinDto);
 
     return token;
   }
 
   @Post('refresh')
+  @ApiIgnoreTransform()
   @UseGuards(JwtAuthGuard)
   private async refresh(@Req() { user }: Request): Promise<string | never> {
     console.log('>>>>>>>', user);
-    return await this.authService.refresh(user as AuthCredentialsPayload);
+    const { id, username, platform } = user as UserEntity;
+    const payload: AuthCredentialsPayload = {
+      id: Number(id),
+      username,
+      version: '2',
+      platform,
+    };
+    return await this.authService.refresh(payload);
   }
 }
