@@ -1,9 +1,9 @@
 import { IsNotEmpty, Length, Matches } from 'class-validator';
-import { UserDto } from './user.dto';
+import { UserDto } from '../../user/dto/user.dto';
 import { IsEqual, PASSWORD_CHECK_REGEX } from 'src/validators';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class SignupUserDto extends UserDto {
+export class UserSignupDto extends UserDto {
   @ApiProperty({
     required: true,
     description:

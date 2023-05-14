@@ -5,7 +5,9 @@ export const ErrorMessage = {
   400102: '手机号码重复',
   400103: '邮箱地址重复',
   400104: '用户不存在',
-  400105: '登录失败',
+  400105: '登录验证失败',
+  400106: '用户账号失效',
+  403100: 'Access Token authencation failed.',
 };
 
 export enum ErrorCodeEnum {
@@ -14,8 +16,10 @@ export enum ErrorCodeEnum {
   DUPLICATE_USERNAME = 400101,
   DUPLICATE_MOBILE = 400102,
   DUPLICATE_EMAIL = 400103,
-  USER_NOTFOUND = 400104,
+  USER_NOT_FOUND = 400104,
   LOGIN_FAILED = 400105,
+  USER_ACCOUNT_INVALID = 400106,
+  TOKEN_AUTHENCATION_INVALID = 403100,
 }
 
 /**
@@ -28,7 +32,7 @@ export function getBizError(
 ) {
   return {
     errcode: errorCode,
-    message: ErrorMessage[errorCode.valueOf()] || ErrorMessage[999999],
+    message: ErrorMessage[errorCode.valueOf()] || getErrorTypeKey(errorCode),
     error: getErrorTypeKey(errorCode),
   };
 }

@@ -8,7 +8,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { HttpExceptionResponse } from 'src/errors/biz.exception';
+import { HttpExceptionResponse } from 'src/errors';
 import { formatDate } from 'src/utils/date.util';
 
 export const getStatusCode = <T>(exception: T): number => {

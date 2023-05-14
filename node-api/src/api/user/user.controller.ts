@@ -6,23 +6,22 @@ import {
   HttpStatus,
   Param,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { UserListVo, UserVo } from '../../api/vo/user.vo';
-import { ErrorCodeEnum, getBizError } from 'src/errors/error.code';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserReqDto } from '../../api/user/dto/user.req.dto';
 import { UserService } from './user.service';
-import { ToolsService } from 'src/shared/services/tools/tools.service';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserListVo, UserVo } from '../vo/user.vo';
+import { UserReqDto } from './dto/user.req.dto';
+import { ErrorCodeEnum, getBizError } from 'src/errors/error.code';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @ApiTags('API Document - User')
 @Controller('user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly tool: ToolsService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @ApiResponse({ type: UserVo, description: 'User Object' })
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getUserById(@Param('id') id: number): Promise<UserVo | null> {
     return await this.userService.userById(id);

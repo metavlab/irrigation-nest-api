@@ -13,3 +13,10 @@ nest new <project_name>
 ```bash
 pnpm i -D <package_name>
 ```
+
+## NestJs JWT integation
+
+- 1. import xxxMoudle
+- 2. provider LocalStrategy 
+- 3. build LocalAuthGuard
+- 4. UseGuard(JwtAuthGuard)

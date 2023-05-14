@@ -6,7 +6,7 @@ import { ApiIgnoreTransform } from './decorators/transform/api-ignore/api-ignore
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @Get(['', 'health'])
   @ApiIgnoreTransform()
   getHello(): string {
     return this.appService.getHello();

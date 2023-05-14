@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsOptional, ValidateIf } from 'class-validator';
-import { UserDto } from 'src/common/user/dto/user.dto';
+import { UserDto } from 'src/api/user/dto/user.dto';
 
 export class AccountDto extends UserDto {
   @IsOptional()

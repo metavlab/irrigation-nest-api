@@ -35,6 +35,7 @@ export class UserEntity extends SharedEntity {
 
   @Column({
     type: 'varchar',
+    nullable: true,
     length: 128,
     name: 'email',
     comment: 'email address',

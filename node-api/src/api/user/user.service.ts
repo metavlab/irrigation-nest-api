@@ -1,13 +1,12 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '../../api/entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 import { DataSource, Repository } from 'typeorm';
-import { UserDto } from '../../api/user/dto/user.dto';
-import { UserSignupDto } from '../../api/auth/dto/user.signup.dto';
-import { UserVo } from '../../api/vo/user.vo';
-import { ErrorCodeEnum, getBizError } from 'src/errors/error.code';
 import { ToolsService } from 'src/shared/services/tools/tools.service';
+import { UserVo } from '../vo/user.vo';
 import { PlatformEnum } from 'src/enums/platform.enum';
+import { ErrorCodeEnum, getBizError } from 'src/errors/error.code';
+import { UserSignupDto } from '../auth/dto/user.signup.dto';
 
 @Injectable()
 export class UserService {
@@ -61,7 +60,7 @@ export class UserService {
 
     const encryptPassword = await this.toolService.encrptPassword(password);
 
-    const _user: UserEntity = await this.userRepository.save(
+    const user: UserEntity = await this.userRepository.save(
       await this.userRepository.create({
         ...userDto,
         nickname: userDto.nickname || userDto.username,
@@ -70,6 +69,7 @@ export class UserService {
         isSuper: 0,
       }),
     );
+    console.log('user', user);
 
     return await this.findUserByUsername(username);
   }
@@ -82,11 +82,6 @@ export class UserService {
         HttpStatus.BAD_REQUEST,
       );
     return ret;
-  }
-
-  checkUserExist(user: UserDto): Promise<boolean> {
-    Logger.log('User', user);
-    return Promise.resolve(true);
   }
 
   async findUserByUsername(username: string): Promise<UserVo | null> {
