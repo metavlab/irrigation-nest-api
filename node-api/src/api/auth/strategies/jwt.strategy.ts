@@ -3,8 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthHelper } from '../auth.helper';
 import { ConfigService } from '@nestjs/config';
-import { UserEntity } from 'src/api/entities/user.entity';
 import { AuthCredentialsPayload } from 'src/api/types/auth.credentials.type';
+import { ICurrentUser } from 'src/decorators/current-user/current-user.decorator';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   private validate(
     payload: AuthCredentialsPayload,
-  ): Promise<UserEntity | never> {
+  ): Promise<ICurrentUser | never> {
     return this.helper.validateUser(payload);
   }
 }

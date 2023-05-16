@@ -2,23 +2,33 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard as Guard, IAuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { PublicApiPropertyName } from 'src/decorators';
+import { AuthModulePropertyName, PublicApiPropertyName } from 'src/decorators';
+import { ApiAuthService } from 'src/shared/services/api-auth/api-auth.service';
 
 @Injectable()
 export class JwtAuthGuard extends Guard('jwt') implements IAuthGuard {
-  constructor(private readonly refector: Reflector) {
+  constructor(
+    private readonly refector: Reflector,
+    private readonly apiAuthService: ApiAuthService,
+  ) {
     super();
   }
 
-  public handleRequest<UserEntity>(
+  public handleRequest<ICurrentUser>(
     _err: any,
-    user: UserEntity,
+    user: ICurrentUser,
     _info: any,
     _context: ExecutionContext,
     _status?: any,
-  ): UserEntity {
+  ): ICurrentUser {
     return user;
   }
+
+  /**
+   *
+   * @param context
+   * @returns Boolean
+   */
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     await super.canActivate(context);
 
@@ -28,7 +38,23 @@ export class JwtAuthGuard extends Guard('jwt') implements IAuthGuard {
     );
     if (isPublic) return true;
 
-    const { user }: Request = context.switchToHttp().getRequest();
-    return user ? true : false;
+    const { user, method, url }: Request = context.switchToHttp().getRequest();
+    if (!user) return false;
+
+    //Valid api permission
+    const methodAuth = this.refector.get<string>(
+      AuthModulePropertyName,
+      context.getHandler(),
+    );
+
+    const classAuth = this.refector.get<string>(
+      AuthModulePropertyName,
+      context.getClass(),
+    );
+    if (methodAuth || classAuth) {
+      await this.apiAuthService.validApiPermission(user, method, url);
+    }
+
+    return true;
   }
 }

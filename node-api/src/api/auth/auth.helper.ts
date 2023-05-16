@@ -5,11 +5,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../admin/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { AuthCredentialsPayload } from '../types/auth.credentials.type';
 import { ErrorCodeEnum, getBizError } from 'src/errors';
+import { ICurrentUser } from 'src/decorators/current-user/current-user.decorator';
 
 @Injectable()
 export class AuthHelper {
@@ -37,8 +38,25 @@ export class AuthHelper {
 
   public async validateUser(
     decoded: AuthCredentialsPayload,
-  ): Promise<UserEntity> {
-    return this.repository.findOneBy({ id: decoded.id });
+  ): Promise<ICurrentUser> {
+    const current: ICurrentUser = await this.repository.findOne({
+      where: { id: decoded.id },
+      select: [
+        'id',
+        'username',
+        'mobile',
+        'email',
+        'nickname',
+        'wechat',
+        'wechatUid',
+        'avatar',
+        'platform',
+        'isSuper',
+        'status',
+      ],
+    });
+
+    return current;
   }
 
   private async validate(token: string): Promise<boolean | never> {
@@ -49,7 +67,7 @@ export class AuthHelper {
         HttpStatus.FORBIDDEN,
       );
     }
-    const user: UserEntity = await this.validateUser(
+    const user: ICurrentUser = await this.validateUser(
       decoded as AuthCredentialsPayload,
     );
     if (!user)

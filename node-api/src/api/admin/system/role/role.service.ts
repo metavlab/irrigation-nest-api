@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { RoleEntity } from '../entities/role.entity';
+import { RoleEntity } from '../../entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DataSource,

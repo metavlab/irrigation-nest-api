@@ -1,11 +1,14 @@
 import { Global, Module } from '@nestjs/common';
 
-import { ApiAuthService } from './services/api-auth/api-auth.service';
 import { ToolsService } from './services/tools/tools.service';
+import { ApiAuthService } from './services/api-auth/api-auth.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AccessEntity } from 'src/api/admin/entities/access.entity';
 
 @Global()
 @Module({
-  providers: [ApiAuthService, ToolsService],
-  exports: [ApiAuthService, ToolsService],
+  imports: [TypeOrmModule.forFeature([AccessEntity])],
+  providers: [ToolsService, ApiAuthService],
+  exports: [ToolsService, ApiAuthService],
 })
 export class SharedModule {}

@@ -16,15 +16,17 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { RoleEntity } from '../entities/role.entity';
+import { RoleEntity } from '../../entities/role.entity';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create.role.dto';
 import { ReqRoleDto } from './dto/req.role.dto';
 import { RoleListVo } from '../vo/role.vo';
 import { UpdateRoleDto } from './dto/update.role.dto';
 import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
+import { AuthModule } from 'src/decorators';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Roles`)
+@AuthModule('角色管理')
 @Controller('role')
 export class RoleController {
   constructor(private readonly service: RoleService) {}

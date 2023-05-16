@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../admin/entities/user.entity';
 import { Repository } from 'typeorm';
 import { ToolsService } from 'src/shared/services/tools/tools.service';
 import { UserSiginDto } from './dto/user.signin.dto';
@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { ErrorCodeEnum, getBizError } from 'src/errors';
 import { AuthCredentialsPayload } from '../types/auth.credentials.type';
 import { AuthHelper } from './auth.helper';
+import { API_VERSION } from 'src/constants';
 
 @Injectable()
 export class AuthService {
@@ -56,7 +57,7 @@ export class AuthService {
     const payload: AuthCredentialsPayload = {
       id: Number(user.id),
       username: user.username,
-      version: '1',
+      version: API_VERSION,
       platform: user.platform,
     };
     const accessToken: string = await this.authHelper.generateToken(payload);

@@ -11,6 +11,7 @@ export const ErrorMessage = {
   400108: '数据不存在',
 
   403100: 'Access Token authencation failed.',
+  403101: '接口权限验证失败',
 };
 
 export enum ErrorCodeEnum {
@@ -26,6 +27,7 @@ export enum ErrorCodeEnum {
   DATA_RECORD_UNFOUND = 400108,
 
   TOKEN_AUTHENCATION_INVALID = 403100,
+  API_AUTH_FORBIDDEN = 403101,
 }
 
 /**

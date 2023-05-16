@@ -1,9 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAccessDto } from './dto/create.access.dto';
-import { AccessEntity } from '../entities/access.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ErrorCodeEnum, getBizError } from 'src/errors';
+import { AccessVo, AccessListVo } from '../vo/access.vo';
+import { PageEnum } from 'src/enums';
+import { ReqAccessDto } from './dto/req.access.dto';
+import { AccessEntity } from '../../entities';
 
 @Injectable()
 export class AccessService {
@@ -57,5 +60,42 @@ export class AccessService {
     });
     await this.accessRepository.save(access);
     return await access;
+  }
+
+  /**
+   * Get all access list for auhtencation to role
+   * @returns
+   */
+  async getAllAccessList(): Promise<AccessVo[]> {
+    const list: AccessVo[] = await this.accessRepository.find({
+      where: [{ type: 1 }, { type: 2 }],
+      select: ['id', 'moduleName', 'actionName', 'sortno'],
+    });
+
+    return list;
+  }
+
+  async accessList(reqDto: ReqAccessDto): Promise<AccessListVo> {
+    const {
+      pageSize = PageEnum.PAGE_SIZE,
+      pageNumber = PageEnum.PAGE_NUMBER,
+      parentId = 0,
+    } = reqDto;
+
+    const [data, total] = await this.accessRepository
+      .createQueryBuilder('access')
+      .where('access.parentId = :parentId', { parentId })
+      .skip((pageNumber - 1) * pageSize)
+      .take(pageSize)
+      .orderBy({ 'access.sortno': 'ASC', 'access.createdAt': 'DESC' })
+      .printSql()
+      .getManyAndCount();
+
+    return {
+      pageNumber,
+      pageSize,
+      total,
+      data,
+    };
   }
 }

@@ -17,7 +17,7 @@ import { ApiIgnoreTransform, PublicApi } from 'src/decorators';
 import { Request } from 'express';
 import { AuthCredentialsPayload } from '../types/auth.credentials.type';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../admin/entities/user.entity';
 
 @ApiTags('API Document - Auth')
 @Controller()

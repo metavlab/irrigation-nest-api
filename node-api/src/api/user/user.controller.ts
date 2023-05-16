@@ -1,21 +1,32 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
   HttpException,
   HttpStatus,
   Param,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UserListVo, UserVo } from '../vo/user.vo';
 import { UserReqDto } from './dto/user.req.dto';
 import { ErrorCodeEnum, getBizError } from 'src/errors/error.code';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { CurrentUser } from 'src/decorators/current-user/current-user.decorator';
+import { ModifyPasswordDto } from './dto/modify.password.dto';
+import { AuthModule } from 'src/decorators';
 
 @ApiTags('API Document - User')
+@AuthModule('账号管理')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -39,5 +50,22 @@ export class UserController {
       getBizError(ErrorCodeEnum.DUPLICATE_USERNAME),
       HttpStatus.BAD_REQUEST,
     );
+  }
+
+  @ApiOperation({
+    summary: 'Modify My password',
+    description: 'Modify Current user password',
+  })
+  @ApiOkResponse({
+    type: Number,
+    description: 'Update affected record count,success will return 1',
+  })
+  @HttpCode(HttpStatus.OK)
+  @Post('modify_password')
+  modifyMyPassword(
+    @CurrentUser('id') id: number,
+    @Body() dto: ModifyPasswordDto,
+  ): Promise<number | never> {
+    return this.userService.updatePasswordById(id, dto);
   }
 }
