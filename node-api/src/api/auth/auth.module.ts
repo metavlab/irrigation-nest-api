@@ -17,12 +17,14 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>('JWT_KEY'),
-        signOptions: { expiresIn: config.get<string>('JWT_EXPIRES') },
+        signOptions: {
+          issuer: config.get<string>('JWT_ISSUER', 'anglar.dev'),
+          expiresIn: '360d' || config.get<string>('JWT_EXPIREIN', '180d'),
+        },
       }),
     }),
     TypeOrmModule.forFeature([UserEntity]),
     UserModule,
-    PassportModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthHelper, JwtStrategy],

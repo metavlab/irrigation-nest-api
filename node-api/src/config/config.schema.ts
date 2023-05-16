@@ -9,7 +9,8 @@ export const configValidationSchema = Joi.object({
   DB_HOST: Joi.string().required(),
   DB_PORT: Joi.string().required(),
   DB_DATABASE: Joi.string().required(),
-  JWT_EXPIRES: Joi.string()
-    .regex(/^\d+(m|h|d|y)?$/)
-    .optional(),
+  JWT_EXPIREIN: Joi.string()
+    .regex(/^\d+(s|m|h|d|y)?$/)
+    .optional()
+    .default('7d'),
 });

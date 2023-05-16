@@ -22,10 +22,12 @@ async function bootstrap() {
 
   app.setGlobalPrefix(appGlobalPrefix);
 
+  // Validations
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
   // Filter Exceptions
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
-  app.useGlobalPipes(new ValidationPipe());
 
   // swagger UI docs
   const options = new DocumentBuilder()

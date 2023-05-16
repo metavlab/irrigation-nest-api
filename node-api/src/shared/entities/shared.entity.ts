@@ -1,8 +1,8 @@
-import { Transform, TransformFnParams } from 'class-transformer';
+import { Transform, TransformFnParams, Type } from 'class-transformer';
 import {
   BaseEntity,
-  Column,
   CreateDateColumn,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,34 +13,35 @@ abstract class SharedEntity extends BaseEntity {
     name: 'id',
     comment: 'Primary key ID',
   })
+  @Type(() => Number)
+  @Transform(({ value }) => Number(value))
   id: number;
-
-  @Column({
-    type: 'tinyint',
-    nullable: false,
-    default: 0,
-    name: 'is_deleted',
-    comment: 'deleted,0-available,1-invalid or unavailable',
-  })
-  isDeleted: number;
 
   @Transform((row: TransformFnParams) => +new Date(row.value))
   @CreateDateColumn({
     type: 'timestamp',
     nullable: false,
-    name: 'created_time',
+    name: 'created_at',
     comment: 'record create time',
   })
-  createdTime: Date;
+  createdAt: Date;
 
   @Transform((row: TransformFnParams) => +new Date(row.value))
   @UpdateDateColumn({
     type: 'timestamp',
     nullable: false,
-    name: 'updated_time',
+    name: 'updated_at',
     comment: 'record last update time',
   })
-  updatedTime: Date;
+  updatedAt: Date;
+
+  @DeleteDateColumn({
+    type: 'timestamp',
+    nullable: true,
+    name: 'deleted_at',
+    comment: 'Logic delete sign',
+  })
+  deletedAt?: Date;
 }
 
 export default SharedEntity;

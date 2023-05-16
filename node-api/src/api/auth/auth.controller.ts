@@ -12,7 +12,7 @@ import { UserVo } from '../vo/user.vo';
 import { UserSignupDto } from './dto/user.signup.dto';
 import { UserSiginDto } from './dto/user.signin.dto';
 import { AuthService } from './auth.service';
-import { ApiIgnoreTransform } from 'src/decorators';
+import { ApiIgnoreTransform, PublicApi } from 'src/decorators';
 // import { HEADER_JWT_TOKEN_KEY } from 'src/constants/http.constants';
 import { Request } from 'express';
 import { AuthCredentialsPayload } from '../types/auth.credentials.type';
@@ -28,6 +28,7 @@ export class AuthController {
   ) {}
 
   @ApiResponse({ type: UserVo, description: 'User created infomartion' })
+  @PublicApi()
   @Post('/signup')
   async signup(@Body() userDto: UserSignupDto): Promise<UserVo> {
     const user = await this.userService.createUser(userDto);
@@ -36,7 +37,8 @@ export class AuthController {
 
   @ApiResponse({ type: String, description: 'User access token' })
   @ApiIgnoreTransform()
-  @Post('/signin')
+  @PublicApi()
+  @Post(['/signin', '/auth'])
   public async signin(@Body() signinDto: UserSiginDto): Promise<string> {
     const token: string = await this.authService.userLogin(signinDto);
 
@@ -47,7 +49,6 @@ export class AuthController {
   @ApiIgnoreTransform()
   @UseGuards(JwtAuthGuard)
   private async refresh(@Req() { user }: Request): Promise<string | never> {
-    console.log('>>>>>>>', user);
     const { id, username, platform } = user as UserEntity;
     const payload: AuthCredentialsPayload = {
       id: Number(id),

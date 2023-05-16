@@ -37,7 +37,7 @@ export class AuthService {
         HttpStatus.NOT_FOUND,
       );
 
-    if (user.isDeleted === 1 || user.status === 0) {
+    if (user.status === 0) {
       throw new HttpException(
         getBizError(ErrorCodeEnum.USER_ACCOUNT_INVALID),
         HttpStatus.FORBIDDEN,

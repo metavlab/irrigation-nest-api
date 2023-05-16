@@ -7,6 +7,9 @@ export const ErrorMessage = {
   400104: '用户不存在',
   400105: '登录验证失败',
   400106: '用户账号失效',
+  400107: '数据唯一属性重复导致冲突',
+  400108: '数据不存在',
+
   403100: 'Access Token authencation failed.',
 };
 
@@ -19,6 +22,9 @@ export enum ErrorCodeEnum {
   USER_NOT_FOUND = 400104,
   LOGIN_FAILED = 400105,
   USER_ACCOUNT_INVALID = 400106,
+  DATA_RECORD_CONFLICT = 400107,
+  DATA_RECORD_UNFOUND = 400108,
+
   TOKEN_AUTHENCATION_INVALID = 403100,
 }
 
@@ -29,10 +35,14 @@ export enum ErrorCodeEnum {
  */
 export function getBizError(
   errorCode: ErrorCodeEnum = ErrorCodeEnum.UNKNOW_ERROR,
+  message?: string,
 ) {
   return {
     errcode: errorCode,
-    message: ErrorMessage[errorCode.valueOf()] || getErrorTypeKey(errorCode),
+    message:
+      message ||
+      ErrorMessage[errorCode.valueOf()] ||
+      getErrorTypeKey(errorCode),
     error: getErrorTypeKey(errorCode),
   };
 }
