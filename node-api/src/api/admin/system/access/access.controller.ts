@@ -14,9 +14,12 @@ import { AccessEntity } from '../../entities/access.entity';
 import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
 import { ReqAccessDto } from './dto/req.access.dto';
 import { AccessListVo, AccessVo } from '../vo/access.vo';
+import { PermissionModule, RegistDynamicRoute } from 'src/common';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Access Resource`)
 @Controller('access')
+@PermissionModule('访问权限管理')
+@RegistDynamicRoute('admin')
 export class AccessController {
   constructor(private readonly service: AccessService) {}
 

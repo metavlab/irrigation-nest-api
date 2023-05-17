@@ -17,9 +17,10 @@ export class ApiAuthService {
     url: string,
   ): Promise<boolean> {
     const { isSuper } = user;
+    console.log('>>>>validApiPermission>>>>>>>', user, method, url);
+
     if (isSuper) return true;
 
-    console.log(user, method, url);
     return Promise.resolve(true);
   }
 }

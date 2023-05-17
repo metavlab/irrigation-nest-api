@@ -2,17 +2,26 @@ import SharedEntity from 'src/shared/entities/shared.entity';
 import { Column, Entity, Unique } from 'typeorm';
 
 @Entity('access')
-@Unique('module_name_delete_at', ['moduleName', 'deletedAt'])
-@Unique('action_name_delete_at', ['actionName', 'deletedAt'])
+@Unique('module_name_delete_at', ['name', 'deletedAt'])
+@Unique('resource_no_delete_at', ['resourceNo', 'deletedAt'])
 export class AccessEntity extends SharedEntity {
+  @Column({
+    type: 'int',
+    nullable: false,
+    default: 0,
+    name: 'parent_id',
+    comment: 'Parent Id',
+  })
+  parentId: number;
+
   @Column({
     type: 'varchar',
     nullable: true,
     length: 50,
-    name: 'module_name',
-    comment: 'Module name of system',
+    name: 'name',
+    comment: 'Module ,menu or action name',
   })
-  moduleName: string;
+  name: string;
 
   @Column({
     type: 'tinyint',
@@ -24,21 +33,21 @@ export class AccessEntity extends SharedEntity {
 
   @Column({
     type: 'varchar',
+    length: 150,
+    nullable: true,
+    name: 'rsource_no',
+    comment: 'Resouce no',
+  })
+  resourceNo?: string;
+
+  @Column({
+    type: 'varchar',
     length: 100,
     nullable: true,
     name: 'action_name',
     comment: 'access action name',
   })
   actionName: string;
-
-  @Column({
-    type: 'varchar',
-    nullable: true,
-    length: 100,
-    name: 'api_name',
-    comment: 'Api name',
-  })
-  apiName: string;
 
   @Column({
     type: 'varchar',
@@ -54,27 +63,9 @@ export class AccessEntity extends SharedEntity {
     nullable: true,
     length: 100,
     name: 'url',
-    comment: 'route URL ',
+    comment: 'route URL copy form resource',
   })
   url: string;
-
-  @Column({
-    type: 'varchar',
-    nullable: true,
-    length: 10,
-    name: 'method',
-    comment: 'Request method',
-  })
-  method: string;
-
-  @Column({
-    type: 'int',
-    nullable: false,
-    default: 0,
-    name: 'parent_id',
-    comment: 'Parent Id',
-  })
-  parentId: number;
 
   @Column({
     type: 'int',

@@ -23,10 +23,11 @@ import { ReqRoleDto } from './dto/req.role.dto';
 import { RoleListVo } from '../vo/role.vo';
 import { UpdateRoleDto } from './dto/update.role.dto';
 import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
-import { AuthModule } from 'src/decorators';
+import { PermissionModule, RegistDynamicRoute } from 'src/common';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Roles`)
-@AuthModule('角色管理')
+@PermissionModule('角色管理')
+@RegistDynamicRoute('admin')
 @Controller('role')
 export class RoleController {
   constructor(private readonly service: RoleService) {}

@@ -1,8 +1,10 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
+import { PATH_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard as Guard, IAuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { AuthModulePropertyName, PublicApiPropertyName } from 'src/decorators';
+import { META_PERMISSION_MODULE } from 'src/common';
+import { PublicApiPropertyName } from 'src/decorators';
 import { ApiAuthService } from 'src/shared/services/api-auth/api-auth.service';
 
 @Injectable()
@@ -43,15 +45,24 @@ export class JwtAuthGuard extends Guard('jwt') implements IAuthGuard {
 
     //Valid api permission
     const methodAuth = this.refector.get<string>(
-      AuthModulePropertyName,
+      META_PERMISSION_MODULE,
       context.getHandler(),
     );
 
     const classAuth = this.refector.get<string>(
-      AuthModulePropertyName,
+      META_PERMISSION_MODULE,
       context.getClass(),
     );
+
     if (methodAuth || classAuth) {
+      const baseUrl = Reflect.getMetadata(PATH_METADATA, context.getClass());
+      const subPath = Reflect.getMetadata(PATH_METADATA, context.getHandler());
+      console.log(
+        `Jwt-auth: ${url} ${baseUrl} ${subPath}`,
+        context.getHandler().name,
+        context.getClass().name,
+        `PermissionMoudle: ${methodAuth || classAuth}`,
+      );
       await this.apiAuthService.validApiPermission(user, method, url);
     }
 

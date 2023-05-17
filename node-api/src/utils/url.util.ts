@@ -8,3 +8,34 @@ export const urlPartailConvert = (url: string, prefix?: string): string => {
   }
   return newParts.join('/');
 };
+
+/**
+ *
+ * @param path
+ * @param baseUrl
+ * @param options
+ * @returns string
+ */
+export const composeUrl = (
+  path: string,
+  baseUrl = '',
+  options?: { appPrefix?: string; registPrefix?: string },
+): string => {
+  const parts: string[] = [];
+  const { appPrefix, registPrefix } = options || {};
+  if (appPrefix && appPrefix.trim()) {
+    parts.push(appPrefix.trim());
+  }
+  if (registPrefix && registPrefix.trim()) {
+    parts.push(registPrefix.trim());
+  }
+  if (baseUrl && baseUrl.trim()) {
+    parts.push(baseUrl.trim());
+  }
+  parts.push(path.trim());
+  const url = parts
+    .join('/')
+    .replace('//', '/')
+    .replace(/(.*)?\/$/, '$1');
+  return url;
+};

@@ -2,12 +2,15 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, MaxLength, ValidateIf } from 'class-validator';
 
 export class AccessDto {
-  @ApiPropertyOptional({ required: false, description: 'Module name' })
+  @ApiPropertyOptional({
+    required: false,
+    description: 'Module name or Menu name',
+  })
   @MaxLength(50, { message: 'Module name require less than 50' })
   @IsString()
-  @ValidateIf((o) => o.moduleName != '')
+  @ValidateIf((o) => o.name != '')
   @IsOptional()
-  readonly moduleName?: string;
+  readonly name?: string;
 
   @ApiPropertyOptional({
     required: false,
@@ -21,13 +24,12 @@ export class AccessDto {
 
   @ApiPropertyOptional({
     required: false,
-    description: 'Access Resource API name',
+    description: 'Access Resource no',
   })
-  @MaxLength(20, { message: 'Api name require less than 20' })
   @IsString()
-  @ValidateIf((o) => o.apiName != '')
+  @ValidateIf((o) => o.resourceNo != '')
   @IsOptional()
-  readonly apiName?: string;
+  readonly resourceNo?: string;
 
   @ApiPropertyOptional({
     required: false,
@@ -43,16 +45,6 @@ export class AccessDto {
   @ValidateIf((o) => o.url != '')
   @IsOptional()
   readonly url?: string;
-
-  @ApiPropertyOptional({
-    required: false,
-    description: 'Access Resource method',
-  })
-  @MaxLength(10, { message: 'Method name require less than 10' })
-  @IsString()
-  @ValidateIf((o) => o.method != '')
-  @IsOptional()
-  readonly method?: string;
 
   @ApiPropertyOptional({
     required: false,

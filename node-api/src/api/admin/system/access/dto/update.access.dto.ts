@@ -1,6 +1,12 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { AccessDto } from './access.dto';
-import { IsEnum, IsInt, IsOptional, ValidateIf } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UpdateAccessDto extends AccessDto {
@@ -18,4 +24,13 @@ export class UpdateAccessDto extends AccessDto {
   @Type(() => Number)
   @IsOptional()
   readonly type: number;
+
+  @ApiPropertyOptional({
+    required: true,
+    description: 'Access Reourceid',
+  })
+  @IsString({ message: 'Access resource type require an number.' })
+  @ValidateIf((o) => o.type != '')
+  @IsOptional()
+  readonly resourceNo?: string;
 }

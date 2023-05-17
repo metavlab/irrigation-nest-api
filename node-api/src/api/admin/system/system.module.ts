@@ -11,6 +11,8 @@ import { RoleAccessService } from './role-access/role-access.service';
 import { RoleAccessController } from './role-access/role-access.controller';
 import { AccessService } from './access/access.service';
 import { AccessController } from './access/access.controller';
+import { ResourceService } from './resource/resource.service';
+import { ResourceEntity } from '../entities/resource.entity';
 
 @Module({
   imports: [
@@ -20,7 +22,12 @@ import { AccessController } from './access/access.controller';
         module: SystemModule,
       },
     ]),
-    TypeOrmModule.forFeature([RoleEntity, AccessEntity, RoleAccessEntity]),
+    TypeOrmModule.forFeature([
+      RoleEntity,
+      AccessEntity,
+      RoleAccessEntity,
+      ResourceEntity,
+    ]),
   ],
   controllers: [
     RoleController,
@@ -28,6 +35,6 @@ import { AccessController } from './access/access.controller';
     RoleAccessController,
     AccessController,
   ],
-  providers: [RoleService, RoleAccessService, AccessService],
+  providers: [RoleService, RoleAccessService, AccessService, ResourceService],
 })
 export class SystemModule {}

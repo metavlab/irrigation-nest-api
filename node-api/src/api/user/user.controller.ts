@@ -23,10 +23,11 @@ import { ErrorCodeEnum, getBizError } from 'src/errors/error.code';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { CurrentUser } from 'src/decorators/current-user/current-user.decorator';
 import { ModifyPasswordDto } from './dto/modify.password.dto';
-import { AuthModule } from 'src/decorators';
+import { PermissionModule } from 'src/common';
 
 @ApiTags('API Document - User')
-@AuthModule('账号管理')
+@PermissionModule('账号管理')
+@PermissionModule()
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}

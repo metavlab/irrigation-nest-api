@@ -1,7 +1,8 @@
 import SharedEntity from 'src/shared/entities/shared.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, Unique } from 'typeorm';
 
 @Entity('role_access')
+@Unique('role_access_key', ['roleId', 'accessId'])
 export class RoleAccessEntity extends SharedEntity {
   @Column({
     type: 'bigint',
@@ -20,10 +21,10 @@ export class RoleAccessEntity extends SharedEntity {
   accessId: number;
 
   @Column({
-    type: 'tinyint',
+    type: 'varchar',
     nullable: true,
-    name: 'type',
-    comment: 'Resource type,2-menu,3-api',
+    name: 'resource_no',
+    comment: 'Resource no',
   })
-  type: number;
+  resourceNo?: string;
 }

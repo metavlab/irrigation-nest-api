@@ -7,22 +7,32 @@ import { AccessVo, AccessListVo } from '../vo/access.vo';
 import { PageEnum } from 'src/enums';
 import { ReqAccessDto } from './dto/req.access.dto';
 import { AccessEntity } from '../../entities';
+import { ResourceEntity } from '../../entities/resource.entity';
 
 @Injectable()
 export class AccessService {
   constructor(
     @InjectRepository(AccessEntity)
     private readonly accessRepository: Repository<AccessEntity>,
+    @InjectRepository(ResourceEntity)
+    private readonly resourceRepository: Repository<ResourceEntity>,
   ) {}
 
   public async createAccessData(
     dto: CreateAccessDto,
   ): Promise<AccessEntity | never> {
-    const { moduleName, actionName } = dto;
-    if (moduleName) {
+    const {
+      name,
+      actionName,
+      parentId = 0,
+      resourceNo,
+      description,
+      url,
+    } = dto;
+    if (name) {
       const findByModuleName: Pick<AccessEntity, 'id'> | undefined =
         await this.accessRepository.findOne({
-          where: { moduleName },
+          where: { name, parentId },
           select: ['id'],
         });
 
@@ -30,34 +40,45 @@ export class AccessService {
         throw new HttpException(
           getBizError(
             ErrorCodeEnum.DATA_RECORD_CONFLICT,
-            `Access Resource Module name [${moduleName}] has been exists,`,
+            `Access Resource Module name [${name}] has been exists,`,
           ),
           HttpStatus.CONFLICT,
         );
     }
 
-    if (actionName) {
-      const findByActionName: Pick<AccessEntity, 'id'> | undefined =
-        await this.accessRepository.findOne({
-          where: { actionName },
-          select: ['id'],
-        });
+    let saveEntity = {
+      ...dto,
+      status: 1,
+    };
 
-      if (findByActionName)
+    //
+    if (resourceNo) {
+      const findResource: Pick<
+        ResourceEntity,
+        'moduleName' | 'url' | 'methodDesc' | 'methodName'
+      > = await this.resourceRepository.findOneBy({ resourceNo: resourceNo });
+
+      if (!findResource) {
         throw new HttpException(
           getBizError(
-            ErrorCodeEnum.DATA_RECORD_CONFLICT,
-            `Access Resource Action name [${actionName}] has been exists,`,
+            ErrorCodeEnum.DATA_RECORD_UNFOUND,
+            `Access Resource id [${resourceNo}] incorrect.`,
           ),
-          HttpStatus.CONFLICT,
+          HttpStatus.NOT_FOUND,
         );
+      }
+
+      saveEntity = {
+        ...dto,
+        actionName: actionName || findResource.methodName,
+        url: url || findResource.url,
+        description: description || findResource.methodDesc,
+        status: 1,
+      };
     }
 
     //Save
-    const access: AccessEntity = this.accessRepository.create({
-      ...dto,
-      status: 1,
-    });
+    const access: AccessEntity = this.accessRepository.create(saveEntity);
     await this.accessRepository.save(access);
     return await access;
   }
@@ -69,7 +90,7 @@ export class AccessService {
   async getAllAccessList(): Promise<AccessVo[]> {
     const list: AccessVo[] = await this.accessRepository.find({
       where: [{ type: 1 }, { type: 2 }],
-      select: ['id', 'moduleName', 'actionName', 'sortno'],
+      select: ['id', 'name', 'resourceNo', 'actionName', 'sortno'],
     });
 
     return list;

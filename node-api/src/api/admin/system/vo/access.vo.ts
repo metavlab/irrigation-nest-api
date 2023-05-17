@@ -3,8 +3,10 @@ import { QueryListVo } from 'src/shared/vo/query.list.vo';
 import { QueryVo } from 'src/shared/vo/query.vo';
 
 export class AccessVo extends QueryVo {
+  @ApiProperty({ description: 'Access resource id' })
+  resourceId?: number;
   @ApiProperty({ description: 'Module name' })
-  moduleName: string;
+  name: string;
 
   @ApiProperty({ description: 'action name' })
   actionName: string;
@@ -14,9 +16,6 @@ export class AccessVo extends QueryVo {
 
   @ApiProperty({ description: 'resource url' })
   url: string;
-
-  @ApiProperty({ description: 'Request Method type,GET,DELETE,POST ed.' })
-  method?: string;
 
   @ApiProperty({ description: 'resource praent ID' })
   parentId: number;
