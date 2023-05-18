@@ -5,7 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './interceptors/biz.exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { version } from '../package.json';
-import { TransformInterceptor } from './interceptors/transform/transform.interceptor';
+// import { TransformInterceptor } from './interceptors/transform/transform.interceptor';
 import helmet from 'helmet';
 
 const SWAGERR_ENABLE = process.env.NODE_DEV !== 'production';
@@ -27,7 +27,7 @@ async function bootstrap() {
 
   // Filter Exceptions
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalInterceptors(new TransformInterceptor());
+  // app.useGlobalInterceptors(new TransformInterceptor());
 
   // swagger UI docs
   const options = new DocumentBuilder()

@@ -35,6 +35,7 @@ specifiers:
   joi: ^17.9.2
   moment: ^2.29.4
   mysql: ^2.18.1
+  nestjs-cls: ^3.3.1
   passport: ^0.6.0
   passport-jwt: ^4.0.1
   prettier: ^2.3.2
@@ -68,6 +69,7 @@ dependencies:
   helmet: 7.0.0
   moment: 2.29.4
   mysql: 2.18.1
+  nestjs-cls: 3.3.1_gqkob5jndcfeb3wjw72wbdwyne
   passport: 0.6.0
   passport-jwt: 4.0.1
   reflect-metadata: 0.1.13
@@ -4282,6 +4284,17 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /nestjs-cls/3.3.1_gqkob5jndcfeb3wjw72wbdwyne:
+    resolution: {integrity: sha512-8YyXFAtVVEXSrRpXJfOSGYMTSD6WBbNylowneAjwkUFZaw5ff2Q0VyMUcUKZYux6hTO8NFrGlc2AAm0l2WvPXA==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      '@nestjs/common': '> 7.0.0 < 10'
+      '@nestjs/core': '> 7.0.0 < 10'
+    dependencies:
+      '@nestjs/common': 9.4.0_j3td4gnlgk75ora6o6suo62byy
+      '@nestjs/core': 9.4.0_s52inwjga72fw7w7ilq4rk5hru
+    dev: false
 
   /node-abort-controller/3.1.1:
     resolution: {integrity: sha512-AGK2yQKIjRuqnc6VkX2Xj5d+QW8xZ87pa1UK6yA6ouUyuxfHuMP6umE5QK7UmTeOAymo+Zx1Fxiuw9rVx8taHQ==}

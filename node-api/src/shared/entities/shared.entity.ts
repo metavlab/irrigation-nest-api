@@ -1,6 +1,7 @@
 import { Transform, TransformFnParams, Type } from 'class-transformer';
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
@@ -16,6 +17,26 @@ abstract class SharedEntity extends BaseEntity {
   @Type(() => Number)
   @Transform(({ value }) => Number(value))
   id: number;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+    default: 0,
+    name: 'created_by',
+    comment: 'record created by',
+  })
+  @Type(() => Number)
+  createdBy?: number;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+    default: 0,
+    name: 'updated_by',
+    comment: 'record updated by',
+  })
+  @Type(() => Number)
+  updatedBy?: number;
 
   @Transform((row: TransformFnParams) => +new Date(row.value))
   @CreateDateColumn({
