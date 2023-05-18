@@ -87,6 +87,16 @@ export class RoleController {
   public async removeRoleById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<number | never> {
+    const userRef = await this.service.validateUserRoleRelation(id);
+    if (userRef > 0) {
+      throw new HttpException(
+        getBizError(
+          ErrorCodeEnum.DATA_RECORD_CONFLICT,
+          `Role id ${id} has reffered by some user`,
+        ),
+        HttpStatus.CONFLICT,
+      );
+    }
     const count = await this.service.validateRoleAccessRelation(id);
     if (count > 0)
       throw new HttpException(

@@ -67,15 +67,12 @@ export class JwtAuthGuard extends Guard('jwt') implements IAuthGuard {
       });
       const resourceNo: string = buildResourceNo(url, RequestMethod[method]);
 
-      const apiValid = await this.apiAuthService.validApiPermission(
+      await this.apiAuthService.validApiPermission(
         user,
         method,
         url,
         resourceNo,
       );
-      if (!apiValid) {
-        return false;
-      }
     }
 
     return true;

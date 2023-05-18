@@ -41,6 +41,13 @@ export enum IRequestMethod {
   HEAD = 'HEAD',
 }
 
+export interface IPermissionCache {
+  userId?: number;
+  roleId?: number;
+  resourceNo: string;
+  method: string;
+}
+
 export interface IPermission {
   resourceNo: string;
   moduleName: string;

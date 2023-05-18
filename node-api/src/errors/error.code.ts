@@ -12,6 +12,7 @@ export const ErrorMessage = {
 
   403100: 'Access Token authencation failed.',
   403101: '接口权限验证失败',
+  403102: '接口数据权限验证失败',
 };
 
 export enum ErrorCodeEnum {
@@ -28,6 +29,7 @@ export enum ErrorCodeEnum {
 
   TOKEN_AUTHENCATION_INVALID = 403100,
   API_AUTH_FORBIDDEN = 403101,
+  API_DATA_AUTH_FORBIDDEN = 403102,
 }
 
 /**

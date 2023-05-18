@@ -16,7 +16,7 @@ import { RoleListVo, RoleVo } from '../vo/role.vo';
 import { PageEnum, RoleEnum, StatusEnum } from 'src/enums';
 import { mapToObj } from 'src/utils';
 import { UpdateRoleDto } from './dto/update.role.dto';
-import { RoleAccessEntity } from '../../entities';
+import { RoleAccessEntity, UserRoleEntity } from '../../entities';
 
 @Injectable()
 export class RoleService {
@@ -161,6 +161,17 @@ export class RoleService {
         roleId: roleId,
       });
 
+    return findCount;
+  }
+
+  public async validateUserRoleRelation(
+    roleId: number,
+  ): Promise<number | never> {
+    const findCount: number = await this.dataSource
+      .getRepository(UserRoleEntity)
+      .countBy({
+        roleId: roleId,
+      });
     return findCount;
   }
 }
