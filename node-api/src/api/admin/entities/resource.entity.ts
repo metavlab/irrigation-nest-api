@@ -40,7 +40,7 @@ export class ResourceEntity {
     name: 'controller_name',
     comment: 'Controller name',
   })
-  controllerName: string;
+  controllerName?: string;
 
   @Column({
     type: 'varchar',

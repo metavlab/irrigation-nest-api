@@ -44,7 +44,7 @@ export enum IRequestMethod {
 export interface IPermission {
   resourceNo: string;
   moduleName: string;
-  controllerName: string;
+  controllerName?: string;
   controllerRoute?: string;
   methodName: string;
   method: string;

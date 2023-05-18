@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   Delete,
+  HttpException,
 } from '@nestjs/common';
 import {
   ApiOkResponse,
@@ -24,6 +25,7 @@ import { RoleListVo } from '../vo/role.vo';
 import { UpdateRoleDto } from './dto/update.role.dto';
 import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
 import { PermissionModule, RegistDynamicRoute } from 'src/common';
+import { ErrorCodeEnum, getBizError } from 'src/errors';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Roles`)
 @PermissionModule('角色管理')
@@ -82,9 +84,18 @@ export class RoleController {
     description: 'return affected record number',
   })
   @Delete(':id')
-  public removeRoleById(
+  public async removeRoleById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<number | never> {
+    const count = await this.service.validateRoleAccessRelation(id);
+    if (count > 0)
+      throw new HttpException(
+        getBizError(
+          ErrorCodeEnum.DATA_RECORD_CONFLICT,
+          `Role id ${id} had been used`,
+        ),
+        HttpStatus.CONFLICT,
+      );
     return this.service.destoryRoleById(id);
   }
 

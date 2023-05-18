@@ -19,6 +19,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  /**
+   * validate user in DB
+   * @param payload
+   * @returns user
+   */
   private validate(
     payload: AuthCredentialsPayload,
   ): Promise<ICurrentUser | never> {
