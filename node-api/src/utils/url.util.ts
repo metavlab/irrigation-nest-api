@@ -1,3 +1,12 @@
+import { RequestMethod } from '@nestjs/common';
+
+export const buildResourceNo = (
+  url: string,
+  method: RequestMethod | number,
+): string => {
+  return `${method}-${url}`;
+};
+
 export const urlPartailConvert = (url: string, prefix?: string): string => {
   if (!url) return url;
   const _url = url.indexOf('?') > 0 ? url.substring(0, url.indexOf('?')) : url;

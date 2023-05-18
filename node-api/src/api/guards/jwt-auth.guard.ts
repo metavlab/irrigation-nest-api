@@ -1,11 +1,12 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable, RequestMethod } from '@nestjs/common';
 import { PATH_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard as Guard, IAuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { META_PERMISSION_MODULE } from 'src/common';
+import { META_PERMISSION_MODULE, META_REGIST_DYNAMIC_ROUTE } from 'src/common';
 import { PublicApiPropertyName } from 'src/decorators';
 import { ApiAuthService } from 'src/shared/services/api-auth/api-auth.service';
+import { buildResourceNo, composeUrl } from 'src/utils/url.util';
 
 @Injectable()
 export class JwtAuthGuard extends Guard('jwt') implements IAuthGuard {
@@ -40,7 +41,7 @@ export class JwtAuthGuard extends Guard('jwt') implements IAuthGuard {
     );
     if (isPublic) return true;
 
-    const { user, method, url }: Request = context.switchToHttp().getRequest();
+    const { user, method }: Request = context.switchToHttp().getRequest();
     if (!user) return false;
 
     //Valid api permission
@@ -56,14 +57,25 @@ export class JwtAuthGuard extends Guard('jwt') implements IAuthGuard {
 
     if (methodAuth || classAuth) {
       const baseUrl = Reflect.getMetadata(PATH_METADATA, context.getClass());
-      const subPath = Reflect.getMetadata(PATH_METADATA, context.getHandler());
-      console.log(
-        `Jwt-auth: ${url} ${baseUrl} ${subPath}`,
-        context.getHandler().name,
-        context.getClass().name,
-        `PermissionMoudle: ${methodAuth || classAuth}`,
+      const dynamicRegistPath: string = Reflect.getMetadata(
+        META_REGIST_DYNAMIC_ROUTE,
+        context.getClass(),
       );
-      await this.apiAuthService.validApiPermission(user, method, url);
+      const subPath = Reflect.getMetadata(PATH_METADATA, context.getHandler());
+      const url = composeUrl(subPath, baseUrl, {
+        registPrefix: dynamicRegistPath,
+      });
+      const resourceNo: string = buildResourceNo(url, RequestMethod[method]);
+
+      const apiValid = await this.apiAuthService.validApiPermission(
+        user,
+        method,
+        url,
+        resourceNo,
+      );
+      if (!apiValid) {
+        return false;
+      }
     }
 
     return true;

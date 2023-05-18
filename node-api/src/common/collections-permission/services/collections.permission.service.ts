@@ -9,7 +9,7 @@ import {
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 
-import { composeUrl } from 'src/utils/url.util';
+import { buildResourceNo, composeUrl } from 'src/utils/url.util';
 import { ApiOperationOptions } from '@nestjs/swagger';
 
 @Injectable()
@@ -78,7 +78,7 @@ export class CollectionsPermissionService {
           const url: string = composeUrl(methodPath, baseUrl, {
             registPrefix: dynamicRegistPath,
           });
-          const resourceNo = `${reqMethod}-${url}`;
+          const resourceNo = buildResourceNo(url, reqMethod);
 
           const methodDesc: string = apiOperation?.summary;
 
