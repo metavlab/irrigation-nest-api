@@ -3,16 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config/config.schema';
-import { CommonModule } from './common/common.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SharedModule } from './shared/shared.module';
 import { ApiModule } from './api/api.module';
 import { TypeormConfigService } from './config/typeorm/typeorm.config.service';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { JwtAuthGuard } from './api/guards/jwt-auth.guard';
 import { ClsModule } from 'nestjs-cls';
+import { CommonModule } from './core/common/common.module';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { JwtAuthGuard } from './core/guards/jwt-auth.guard';
 import { UserSubcriber } from './interceptors/user.subscriber';
 import { TransformInterceptor } from './interceptors/transform/transform.interceptor';
+import { AuthModule } from './core/auth/auth.module';
 
 @Module({
   imports: [
@@ -32,9 +32,8 @@ import { TransformInterceptor } from './interceptors/transform/transform.interce
       global: true,
       middleware: { mount: true },
     }),
-
-    SharedModule,
     CommonModule,
+    AuthModule,
     ApiModule,
   ],
   controllers: [AppController],

@@ -10,11 +10,11 @@ import {
 import { AccessService } from './access.service';
 import { CreateAccessDto } from './dto/create.access.dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AccessEntity } from '../../entities/access.entity';
-import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
+import { SWAGGER_MOD_ADMIN } from 'src/core/consts/swagger-api.consts';
 import { ReqAccessDto } from './dto/req.access.dto';
 import { AccessListVo, AccessVo } from '../vo/access.vo';
-import { PermissionModule, RegistDynamicRoute } from 'src/common';
+import { PermissionModule, RegistDynamicRoute } from 'src/core/common';
+import { AccessEntity } from 'src/core/entities';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Access Resource`)
 @Controller('access')

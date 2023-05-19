@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { QueryListVo } from 'src/shared/vo/query.list.vo';
-import { QueryVo } from 'src/shared/vo/query.vo';
+import { QueryListVo, QueryVo } from 'src/core/models';
 
 export class AccessVo extends QueryVo {
   @ApiProperty({ description: 'Access resource id' })

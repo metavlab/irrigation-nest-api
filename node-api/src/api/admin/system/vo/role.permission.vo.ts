@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IPermission } from 'src/common';
+import { IPermission } from 'src/core/common';
 
 export class RolePermissionVo implements IPermission {
   @ApiProperty({

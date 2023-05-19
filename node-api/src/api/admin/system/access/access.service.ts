@@ -6,8 +6,8 @@ import { ErrorCodeEnum, getBizError } from 'src/errors';
 import { AccessVo, AccessListVo } from '../vo/access.vo';
 import { PageEnum } from 'src/enums';
 import { ReqAccessDto } from './dto/req.access.dto';
-import { AccessEntity } from '../../entities';
-import { ResourceEntity } from '../../entities/resource.entity';
+import { AccessEntity } from '../../../../core/entities';
+import { ResourceEntity } from '../../../../core/entities/resource.entity';
 
 @Injectable()
 export class AccessService {

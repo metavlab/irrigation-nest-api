@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { RoleEntity } from '../../entities/role.entity';
+import { RoleEntity } from '../../../../core/entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DataSource,
@@ -16,7 +16,7 @@ import { RoleListVo, RoleVo } from '../vo/role.vo';
 import { PageEnum, RoleEnum, StatusEnum } from 'src/enums';
 import { mapToObj } from 'src/utils';
 import { UpdateRoleDto } from './dto/update.role.dto';
-import { RoleAccessEntity, UserRoleEntity } from '../../entities';
+import { RoleAccessEntity, UserRoleEntity } from 'src/core/entities';
 
 @Injectable()
 export class RoleService {

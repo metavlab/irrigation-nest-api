@@ -1,5 +1,6 @@
 import { ClsService } from 'nestjs-cls';
-import SharedEntity from 'src/shared/entities/shared.entity';
+import { CommonEntity } from 'src/core/models';
+
 import {
   DataSource,
   EntitySubscriberInterface,
@@ -9,23 +10,23 @@ import {
 } from 'typeorm';
 
 @EventSubscriber()
-export class UserSubcriber implements EntitySubscriberInterface<SharedEntity> {
+export class UserSubcriber implements EntitySubscriberInterface<CommonEntity> {
   constructor(dataSource: DataSource, private readonly cls: ClsService) {
     dataSource.subscribers.push(this);
   }
 
   listenTo() {
-    return SharedEntity;
+    return CommonEntity;
   }
 
-  beforeInsert(event: InsertEvent<SharedEntity>) {
+  beforeInsert(event: InsertEvent<CommonEntity>) {
     const userId = this.cls.get('userId');
     if (userId) {
       event.entity.createdBy = userId;
     }
   }
 
-  beforeUpdate(event: UpdateEvent<SharedEntity>): void | Promise<any> {
+  beforeUpdate(event: UpdateEvent<CommonEntity>): void | Promise<any> {
     const userId = this.cls.get('userId');
     if (userId) {
       event.entity.updatedBy = userId;

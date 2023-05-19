@@ -1,12 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DataSource, In, Not, Repository } from 'typeorm';
-import { AccessEntity, RoleAccessEntity, RoleEntity } from '../../entities';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { ErrorCodeEnum, getBizError } from 'src/errors';
 import { RoleAccessDto } from './dto/role.access.dto';
 import { ICurrentUser } from 'src/decorators';
 import { RolePermissionVo } from '../vo/role.permission.vo';
-import { ResourceEntity } from '../../entities/resource.entity';
+import {
+  RoleAccessEntity,
+  RoleEntity,
+  AccessEntity,
+  ResourceEntity,
+} from 'src/core/entities';
 
 @Injectable()
 export class RoleAccessService {

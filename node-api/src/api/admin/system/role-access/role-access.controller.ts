@@ -1,12 +1,13 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RoleAccessService } from './role-access.service';
-import { RoleAccessEntity } from '../../entities';
+import { RoleAccessEntity } from 'src/core/entities';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
-import { PermissionModule, RegistDynamicRoute } from 'src/common';
+import { SWAGGER_MOD_ADMIN } from 'src/core/consts/swagger-api.consts';
+
 import { ReqApproveRoleAccessDto } from './dto/req.approve.access.dto';
 import { RolePermissionVo } from '../vo/role.permission.vo';
 import { CurrentUser, ICurrentUser } from 'src/decorators';
+import { PermissionModule, RegistDynamicRoute } from 'src/core/common';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Role Access Module`)
 @PermissionModule('角色授权')

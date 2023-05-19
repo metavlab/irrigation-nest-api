@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity, UserRoleEntity } from 'src/api/admin/entities';
+import { UserEntity, UserRoleEntity } from 'src/core/entities';
 import { ICurrentUser } from 'src/decorators';
 import { ErrorCodeEnum, getBizError } from 'src/errors';
 import { DataSource, In, Repository } from 'typeorm';

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiIgnoreTransform } from './decorators/transform/api-ignore/api-ignore.decorator';
 import { PublicApi } from './decorators';
@@ -20,9 +20,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('configurations')
+  @Get('configurations/:key')
   @PublicApi()
-  getConfig(): string {
-    return 'ok';
+  getConfig(@Param('key') key: string): string {
+    return key && this.config.get(key, 'Unfound in env');
   }
 }

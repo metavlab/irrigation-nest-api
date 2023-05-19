@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, ValidateIf } from 'class-validator';
 import { Transform, TransformFnParams, Type } from 'class-transformer';
-import { QueryOptionsDto } from 'src/shared/dto/query.options.dto';
+import { QueryOptionsDto } from 'src/core/models';
 
 export class ReqRoleDto extends QueryOptionsDto {
   @ApiPropertyOptional({

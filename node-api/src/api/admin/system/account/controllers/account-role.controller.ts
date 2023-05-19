@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { AccountRoleService } from '../services/account.role.service';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
+import { SWAGGER_MOD_ADMIN } from 'src/core/consts/swagger-api.consts';
 import { CurrentUser, ICurrentUser } from 'src/decorators';
-import { UserRoleEntity } from 'src/api/admin/entities';
-import { PermissionModule, RegistDynamicRoute } from 'src/common';
-import { RequestIdsVo } from 'src/shared/vo/req.ids.vo';
+import { UserRoleEntity } from 'src/core/entities';
+import { RequestIdsDto } from 'src/core/models';
+import { PermissionModule, RegistDynamicRoute } from 'src/core/common';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Account Role`)
 @PermissionModule('角色管理')
@@ -50,7 +50,7 @@ export class AccountRoleController {
   @Post(':userId')
   public createRoleForUser(
     @Param('userId') userId: number,
-    @Body() { ids }: RequestIdsVo,
+    @Body() { ids }: RequestIdsDto,
   ): Promise<number | never> {
     return this.service.createUserRole(userId, ids);
   }

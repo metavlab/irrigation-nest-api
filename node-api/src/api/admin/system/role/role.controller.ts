@@ -17,14 +17,14 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { RoleEntity } from '../../entities/role.entity';
+import { RoleEntity } from 'src/core/entities/role.entity';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create.role.dto';
 import { ReqRoleDto } from './dto/req.role.dto';
 import { RoleListVo } from '../vo/role.vo';
 import { UpdateRoleDto } from './dto/update.role.dto';
-import { SWAGGER_MOD_ADMIN } from 'src/api/swagger-api.constants';
-import { PermissionModule, RegistDynamicRoute } from 'src/common';
+import { SWAGGER_MOD_ADMIN } from 'src/core/consts/swagger-api.consts';
+import { PermissionModule, RegistDynamicRoute } from 'src/core/common';
 import { ErrorCodeEnum, getBizError } from 'src/errors';
 
 @ApiTags(`${SWAGGER_MOD_ADMIN} - Roles`)
