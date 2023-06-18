@@ -19,7 +19,7 @@ export class UserVo extends QueryVo {
 
   @ApiProperty({
     description:
-      'user Platform: 0-Guest(No Auth),1-adminstrator,2-merchant,3-farmer',
+      'user Platform: 0-Guest(No Auth),1-adminstrator,2-merchant,3-CommonUser',
   })
   platform?: number;
 

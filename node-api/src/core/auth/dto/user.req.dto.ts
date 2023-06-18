@@ -30,8 +30,8 @@ export class UserReqDto extends QueryOptionsDto implements IUserRequest {
     enum: [0, 2, 3],
   })
   @IsEnum(
-    { Guest: 0, Management: 2, Farmer: 3 },
-    { message: 'Platform require 0-Guest,2-merchant or 3-Farmer' },
+    { Guest: 0, Management: 2, CommonUser: 3 },
+    { message: 'Platform require 0-Guest,2-merchant or 3-CommonUser' },
   )
   @Type(() => Number)
   @ValidateIf((o) => o.platform != '')

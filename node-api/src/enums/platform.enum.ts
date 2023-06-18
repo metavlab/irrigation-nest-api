@@ -3,12 +3,12 @@ export enum PlatformEnum {
   NO_AUTH = 0,
   ADMIN_PLATFORM = 1,
   MERCHANT_PLATFORM = 2,
-  FARMER_PLATFORM = 3,
+  COMMON_PLATFORM = 3,
 }
 
 export const PlatformMessage = {
   0: 'Guest',
   1: 'Adminstrator',
   2: 'Merchant',
-  3: 'Farmer',
+  3: 'CommonUser',
 };

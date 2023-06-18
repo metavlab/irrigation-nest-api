@@ -37,7 +37,7 @@ export class UserService implements IUserService {
 
     const map = new Map();
 
-    map.set('platform', PlatformEnum.FARMER_PLATFORM);
+    map.set('platform', PlatformEnum.COMMON_PLATFORM);
     username && map.set('username', Like(`${username}%`));
     mobile && map.set('mobile', Like(`${mobile}%`));
     email && map.set('email', Like(`${email}%`));
@@ -63,7 +63,7 @@ export class UserService implements IUserService {
   async createCommonUser(userDto: ISignup): Promise<UserVo> {
     return this.createUser({
       ...userDto,
-      platform: PlatformEnum.FARMER_PLATFORM,
+      platform: PlatformEnum.COMMON_PLATFORM,
     });
   }
 
@@ -73,7 +73,7 @@ export class UserService implements IUserService {
       mobile,
       email,
       password,
-      platform = PlatformEnum.FARMER_PLATFORM,
+      platform = PlatformEnum.COMMON_PLATFORM,
     } = userDto;
 
     const queryConditions = [];

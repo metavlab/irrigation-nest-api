@@ -90,7 +90,7 @@ export class UserEntity extends CommonEntity {
     nullable: true,
     default: 0,
     name: 'platform',
-    comment: 'platform,0-guest,1-administrator,2-merchant,3-farmer',
+    comment: 'platform,0-guest,1-administrator,2-merchant,3-CommonUser',
   })
   platform: PlatformEnum;
 
