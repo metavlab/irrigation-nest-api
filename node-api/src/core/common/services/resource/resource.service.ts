@@ -18,7 +18,7 @@ export class ResourceService {
   ) {}
 
   onModuleInit() {
-    const collectionEnabled = this.config.get('COLLECTIONS_RESOURCES');
+    const collectionEnabled = this.config.get('app.collectionsResources', 'no');
     if (['yes', '1'].includes(collectionEnabled)) {
       this.initPermissions();
     }

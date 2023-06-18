@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 import { HttpExceptionResponse } from 'src/errors';
-import { formatDate } from 'src/utils/date.util';
+import { BizException } from 'src/errors/biz.exception';
 
 export const getStatusCode = <T>(exception: T): number => {
   return exception instanceof HttpException
@@ -60,26 +60,39 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const respose = ctx.getResponse();
-    const request = ctx.getRequest();
 
     const status = getStatusCode(exception);
 
-    const exRet: Record<string, any> = getErrorObject(exception);
+    if (exception instanceof BizException) {
+      const data: CommonResponseType = (exception as BizException).response;
+      Logger.log(`BizException>>>>`, status, data);
+      respose.status(200);
+      respose.header('Content-type', 'application/json; charset=utf-8');
+      respose.send(data);
+    } else if (exception instanceof BadRequestException) {
+      const errResponse = (exception as BadRequestException).getResponse();
+      const message = (exception as BadRequestException).message;
+      const status = (exception as BadRequestException).getStatus();
 
-    const errResponse = {
-      code: status,
-      ...exRet,
-      timestamp: formatDate(new Date()),
-    };
-    Logger.error(
-      `[${Date.now()}] ${request.method} ${request.url}`,
-      JSON.stringify(errResponse),
-      'HttpExceptionFilter',
-    );
-
-    //set
-    respose.status(status);
-    respose.header('Content-type', 'application/json; charset=utf-8');
-    respose.send(errResponse);
+      const data: CommonResponseType = {
+        code: status,
+        message,
+        error:
+          typeof errResponse === 'object'
+            ? errResponse['message']
+            : errResponse,
+      };
+      Logger.log(`BadRequestException>>>>`, status, data);
+      respose.status(200);
+      respose.header('Content-type', 'application/json; charset=utf-8');
+      respose.send(data);
+    } else {
+      respose.status(status);
+      respose.header('Content-type', 'application/json; charset=utf-8');
+      respose.send({
+        code: status,
+        message: (exception as Error).message,
+      });
+    }
   }
 }

@@ -1,0 +1,4 @@
+# ENV
+.env*
+.conf/*.yml
+.conf/*.yaml

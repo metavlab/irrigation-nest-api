@@ -21,10 +21,10 @@ import { JwtStrategy } from './services/strategies/jwt.strategy';
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_KEY'),
+        secret: config.get<string>('jwt.secretKey'),
         signOptions: {
-          issuer: config.get<string>('JWT_ISSUER', 'anglar.dev'),
-          expiresIn: config.get<string>('JWT_EXPIREIN', '180d'),
+          issuer: config.get<string>('jwt.issuer', 'anglar.dev'),
+          expiresIn: config.get<string>('jwt.expirein', '180d'),
         },
       }),
     }),

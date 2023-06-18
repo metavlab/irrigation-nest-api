@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { configValidationSchema } from './config/config.schema';
+import { ConfigValidationSchema } from './config/config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiModule } from './api/api.module';
 import { TypeormConfigService } from './config/typeorm/typeorm.config.service';
@@ -13,17 +13,19 @@ import { JwtAuthGuard } from './core/guards/jwt-auth.guard';
 import { UserSubcriber } from './interceptors/user.subscriber';
 import { TransformInterceptor } from './interceptors/transform/transform.interceptor';
 import { AuthModule } from './core/auth/auth.module';
+import AppConfiguration from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      cache: false,
       isGlobal: true,
-      envFilePath: (process.env.STAGE
-        ? [`.env.${process.env.STAGE}`]
-        : []
-      ).concat(['.env']),
-      validationSchema: configValidationSchema,
-      cache: true,
+      load: [AppConfiguration],
+      validationSchema: ConfigValidationSchema,
+      validationOptions: {
+        allowUnknow: true,
+        abortEarly: true,
+      },
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeormConfigService,

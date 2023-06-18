@@ -16,7 +16,6 @@ export class TransformInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const { user } = context.switchToHttp().getRequest();
 
-    console.log('TransformInterceptor>>>>>>>', user);
     if (user?.id) {
       this.cls.set('userId', user.id);
     }

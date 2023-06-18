@@ -1,6 +1,6 @@
 export const ErrorMessage = {
   999999: '未知错误',
-  100101: '参数非法',
+  400: '参数非法',
   400101: '用户名重复',
   400102: '手机号码重复',
   400103: '邮箱地址重复',
@@ -13,11 +13,14 @@ export const ErrorMessage = {
   403100: 'Access Token authencation failed.',
   403101: '接口权限验证失败',
   403102: '接口数据权限验证失败',
+
+  500501: '服务端配置Error',
+  500511: '服务端API 调用失败',
 };
 
 export enum ErrorCodeEnum {
   UNKNOW_ERROR = 999999,
-  ILLEGAL_ARGS = 100101,
+  ILLEGAL_ARGS = 400,
   DUPLICATE_USERNAME = 400101,
   DUPLICATE_MOBILE = 400102,
   DUPLICATE_EMAIL = 400103,
@@ -27,13 +30,17 @@ export enum ErrorCodeEnum {
   DATA_RECORD_CONFLICT = 400107,
   DATA_RECORD_UNFOUND = 400108,
 
+  API_AUTH_UNAUTHORIZES = 401000,
   TOKEN_AUTHENCATION_INVALID = 403100,
   API_AUTH_FORBIDDEN = 403101,
   API_DATA_AUTH_FORBIDDEN = 403102,
+
+  API_SERVER_CONFIG_ERROR = 500501,
+  API_SERVER_CALL_FAIL = 500511,
 }
 
 /**
- *
+ * @deprecated use getBizErrorMessage
  * @param errorCode
  * @returns object {errcode,errmsg}
  */
@@ -53,4 +60,11 @@ export function getBizError(
 
 export function getErrorTypeKey(value: ErrorCodeEnum) {
   return ErrorCodeEnum[value];
+}
+
+export function getBizErrorMessage(
+  errcode: ErrorCodeEnum | number,
+  defaultMessage: string,
+): string {
+  return ErrorMessage[errcode] || defaultMessage || errcode.toString();
 }

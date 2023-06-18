@@ -30,7 +30,7 @@ export class ToolsService {
   }
 
   private initRounds() {
-    const r = this.configService.get<number>('ENCRYPT_ROUNDS', 10);
+    const r = this.configService.get<number>('jwt.encryptRounds', 10);
     this.rounds =
       r > 5 && r < 15 ? r : Math.floor(Math.random() * (19 - 10) + 6);
   }

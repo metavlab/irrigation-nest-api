@@ -2,12 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAccessDto } from './dto/create.access.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ErrorCodeEnum, getBizError } from 'src/errors';
+import { ErrorCodeEnum, getBizError, getBizErrorMessage } from 'src/errors';
 import { AccessVo, AccessListVo } from '../vo/access.vo';
 import { PageEnum } from 'src/enums';
 import { ReqAccessDto } from './dto/req.access.dto';
 import { AccessEntity } from '../../../../core/entities';
 import { ResourceEntity } from '../../../../core/entities/resource.entity';
+import { BizException } from 'src/errors/biz.exception';
 
 @Injectable()
 export class AccessService {
@@ -37,12 +38,12 @@ export class AccessService {
         });
 
       if (findByModuleName)
-        throw new HttpException(
-          getBizError(
+        throw BizException.create(
+          ErrorCodeEnum.DATA_RECORD_CONFLICT,
+          getBizErrorMessage(
             ErrorCodeEnum.DATA_RECORD_CONFLICT,
-            `Access Resource Module name [${name}] has been exists,`,
+            `Access Resource Module name [${name}] has been exists.`,
           ),
-          HttpStatus.CONFLICT,
         );
     }
 

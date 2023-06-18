@@ -1,17 +1,22 @@
 import * as Joi from 'joi';
 
-// const EXPIRES_EXPRESSION_REGEX = '/^d+$/';
-
-export const configValidationSchema = Joi.object({
-  STAGE: Joi.string().default(''),
-  PORT: Joi.number().default(3000).required(),
-  APP_PREFIX: Joi.string().default(''),
-  COLLECT_RESOURCES: Joi.valid('yes', 'no', '0', '1').optional().default('no'),
-  DB_HOST: Joi.string().required(),
-  DB_PORT: Joi.string().required(),
-  DB_DATABASE: Joi.string().required(),
-  JWT_EXPIREIN: Joi.string()
-    .regex(/^\d+(s|m|h|d|y)?$/)
-    .optional()
-    .default('7d'),
+export const ConfigValidationSchema = Joi.object({
+  STAGE: Joi.string().valid('dev', 'prod', 'test', '').default(''),
+  server: Joi.object({
+    port: Joi.number().default(3000).required(),
+  }),
+  app: Joi.object({
+    apiPrefix: Joi.string().optional(),
+    collectionsResources: Joi.string().default('').optional().default('no'),
+    'app.collectionsResources': Joi.valid('yes', 'no', '0', '1'),
+  }),
+  mysql: Joi.object({
+    host: Joi.string().required(),
+    port: Joi.number().required(),
+    issuer: Joi.string().optional(),
+    expirein: Joi.string()
+      .regex(/^\d+(s|m|h|d|y)?$/)
+      .optional()
+      .default('7d'),
+  }),
 });

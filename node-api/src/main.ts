@@ -13,9 +13,8 @@ const SWAGERR_ENABLE = process.env.NODE_DEV !== 'production';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-
-  const appPort = configService.get<number>('PORT', 3000);
-  const appGlobalPrefix = configService.get<string>('APP_PREFIX', '');
+  const appPort = configService.get<number>('server.port', 3000);
+  const appGlobalPrefix = configService.get<string>('app.apiPrefix', '');
 
   //允许跨域请求
   app.enableCors();
